@@ -1,0 +1,13 @@
+# Test URLs for Hackathon Insight Automator
+
+# Example Devpost project URLs that should work:
+https://devpost.com/software/healthbot-1wk95l
+https://devpost.com/software/aidoc-ai
+https://devpost.com/software/smart-garden-iot
+https://devpost.com/software/ecotrack-carbon-footprint-tracker
+
+# Example hackathon URLs:
+https://hack-for-earth.devpost.com/
+https://htf2023.devpost.com/
+
+# Note: These are example URLs - please use actual, current Devpost URLs for testing.

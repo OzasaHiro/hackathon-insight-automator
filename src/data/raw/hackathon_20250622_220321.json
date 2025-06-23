@@ -1,0 +1,120 @@
+{
+  "success": true,
+  "url": "https://uc-berkeley-ai-hackathon-2025.devpost.com/project-gallery",
+  "hackathon": {
+    "name": "UC Berkeley AI Hackathon 2025: Come join us at the world's largest AI Hackathon hosted by Cal Hacks! - Devpost",
+    "description": "",
+    "devpost_url": "https://uc-berkeley-ai-hackathon-2025.devpost.com/project-gallery",
+    "start_date": null,
+    "end_date": null,
+    "theme": null,
+    "prizes": [],
+    "sponsors": [],
+    "participant_count": null,
+    "submission_count": null,
+    "projects": [
+      {
+        "name": "AuraCode - Elevating Your AI-Assisted Workflow",
+        "description": "",
+        "devpost_url": "https://devpost.com/software/aura-iuhgkc",
+        "project_url": null,
+        "tags": [
+          "css",
+          "gemini",
+          "javascript",
+          "npm",
+          "react",
+          "typescript",
+          "webgl"
+        ],
+        "awards": [],
+        "members": [],
+        "submission_date": null,
+        "image_url": null,
+        "vote_count": null,
+        "comment_count": null
+      },
+      {
+        "name": "PETSOS",
+        "description": "**Summary**: PET911 is a voice-activated emergency assistant that guides pet owners through life-threatening situations — completely hands-free. It simulates a real 911-style call for pets and responds with calm, intelligent, and timely support. Here's what it does:",
+        "devpost_url": "https://devpost.com/software/petsos-0iqmaz",
+        "project_url": "https://github.com/ashleyvarghesee/petsos",
+        "tags": [
+          "flask",
+          "javascript",
+          "postman",
+          "python",
+          "twilio"
+        ],
+        "awards": [],
+        "members": [],
+        "submission_date": null,
+        "image_url": null,
+        "vote_count": null,
+        "comment_count": null
+      },
+      {
+        "name": "TriageAI",
+        "description": "**Summary**: TriageAI is a lightweight web application that allows users to submit symptoms, upload images, and receive an AI-generated assessment. It returns a suggested urgency level, possible diagnosis, and care advice. The system can also process images using a vision model to support the diagnosis. The entire system works with a Python backend and a modern React (Next.js) frontend.",
+        "devpost_url": "https://devpost.com/software/fire-ai-triage",
+        "project_url": "https://github.com/AlanLiCodes2/AI-Hackathon-2025",
+        "tags": [
+          "express.js",
+          "flask",
+          "mongodb",
+          "npm",
+          "python",
+          "typescript"
+        ],
+        "awards": [],
+        "members": [],
+        "submission_date": null,
+        "image_url": null,
+        "vote_count": null,
+        "comment_count": null
+      },
+      {
+        "name": "Trashform",
+        "description": "**Summary**: Trashform is an AI-powered application that revolutionizes waste management through rigorous image recognition algorithms. Our users can upload their own photographs of waste items or use images online, and our system will classify the material as recyclable, compostable, or general waste. Our system will also determine the environmental impact through carbon footprint analysis and calculate the respective environmental impacts. Users will also receive recommendations for nearby recycling centers and trade-in locations where they can recycle these materials.",
+        "devpost_url": "https://devpost.com/software/trashform-10j84l",
+        "project_url": "https://github.com/derpcube/trash-form",
+        "tags": [
+          "flask",
+          "git",
+          "html",
+          "javascript",
+          "python",
+          "react"
+        ],
+        "awards": [],
+        "members": [],
+        "submission_date": null,
+        "image_url": null,
+        "vote_count": null,
+        "comment_count": null
+      },
+      {
+        "name": "Farsight.fyi",
+        "description": "**Summary**: Farsight.fyi is a hybrid AI-system web application that assesses the potential layoff risk of a company. Users enter a company name, and our system performs a multi-stage analysis in real-time:",
+        "devpost_url": "https://devpost.com/software/farsight-fyi",
+        "project_url": "https://github.com/Jam-Cai/layoff-radar",
+        "tags": [
+          "beautiful-soup",
+          "python",
+          "react",
+          "selenium",
+          "typescript"
+        ],
+        "awards": [],
+        "members": [],
+        "submission_date": null,
+        "image_url": null,
+        "vote_count": null,
+        "comment_count": null
+      }
+    ],
+    "scraped_at": "2025-06-22 22:03:21.221189"
+  },
+  "error_message": null,
+  "scraped_at": "2025-06-22 22:03:21.221251"
+}

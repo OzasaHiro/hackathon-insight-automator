@@ -1,0 +1,120 @@
+{
+  "success": true,
+  "url": "https://uc-berkeley-ai-hackathon-2025.devpost.com/project-gallery",
+  "hackathon": {
+    "name": "UC Berkeley AI Hackathon 2025: Come join us at the world's largest AI Hackathon hosted by Cal Hacks! - Devpost",
+    "description": "",
+    "devpost_url": "https://uc-berkeley-ai-hackathon-2025.devpost.com/project-gallery",
+    "start_date": null,
+    "end_date": null,
+    "theme": null,
+    "prizes": [],
+    "sponsors": [],
+    "participant_count": null,
+    "submission_count": null,
+    "projects": [
+      {
+        "name": "AuraCode - Elevating Your AI-Assisted Workflow",
+        "description": "",
+        "devpost_url": "https://devpost.com/software/aura-iuhgkc",
+        "project_url": null,
+        "tags": [
+          "css",
+          "gemini",
+          "javascript",
+          "npm",
+          "react",
+          "typescript",
+          "webgl"
+        ],
+        "awards": [],
+        "members": [],
+        "submission_date": null,
+        "image_url": null,
+        "vote_count": null,
+        "comment_count": null
+      },
+      {
+        "name": "PETSOS",
+        "description": "**Summary**: PETSOS (PET911) is a voice-activated emergency assistant designed to guide pet owners through life-threatening situations for their pets. It simulates a 911-style call, providing hands-free, calm, and intelligent support using a modular multi-agent AI system.\n\n**Problem Addressed**: The critical absence of a dedicated 911-style emergency service for pets during life-threatening health crises.\n\n**Key Features**: Voice-activated interface, Hands-free operation, 911-style call simulation, Real-time emergency assessment (Triage Agent), Contextual continuity (Memory Agent), Decision-making for next steps, Emergency routing via SMS, Calm and timely support\n\n**Technical Complexity**: High\n\n**Innovation Level**: High\n\n**Categories**: Pet Tech, Health Tech, AI/ML, Emergency Services, Voice AI",
+        "devpost_url": "https://devpost.com/software/petsos-0iqmaz",
+        "project_url": "https://github.com/ashleyvarghesee/petsos",
+        "tags": [
+          "flask",
+          "javascript",
+          "postman",
+          "python",
+          "twilio"
+        ],
+        "awards": [],
+        "members": [],
+        "submission_date": null,
+        "image_url": null,
+        "vote_count": null,
+        "comment_count": null
+      },
+      {
+        "name": "TriageAI",
+        "description": "**Summary**: TriageAI is a lightweight web application designed to assist healthcare workers by automating parts of the patient triage process. It takes user-submitted symptoms and images, providing an AI-generated assessment including urgency level, possible diagnosis, and care advice, especially useful in resource-limited or disaster scenarios.\n\n**Problem Addressed**: The stress healthcare workers face when trying to quickly triage patients, especially in clinics or disaster scenarios without full hospital infrastructure or around-the-clock staff.\n\n**Key Features**: AI-generated assessment, Suggested urgency level, Possible diagnosis, Care advice, Symptom submission, Image upload for vision analysis, Rule-based inference (MedicalTriageAssistant class), Clean UI\n\n**Technical Complexity**: Medium\n\n**Innovation Level**: Medium\n\n**Categories**: Healthtech, AI/ML, Web Application, Healthcare, Emergency Response",
+        "devpost_url": "https://devpost.com/software/fire-ai-triage",
+        "project_url": "https://github.com/AlanLiCodes2/AI-Hackathon-2025",
+        "tags": [
+          "express.js",
+          "flask",
+          "mongodb",
+          "npm",
+          "python",
+          "typescript"
+        ],
+        "awards": [],
+        "members": [],
+        "submission_date": null,
+        "image_url": null,
+        "vote_count": null,
+        "comment_count": null
+      },
+      {
+        "name": "Trashform",
+        "description": "**Summary**: Trashform is an AI-powered application designed to revolutionize waste management. It utilizes image recognition to classify waste items as recyclable, compostable, or general waste, calculates their environmental impact through carbon footprint analysis, and provides recommendations for nearby recycling and trade-in locations, aiming to increase individual motivation and proper disposal.\n\n**Problem Addressed**: Lack of awareness and motivation among the population leading to poor waste disposal practices and contributing to the global recycling crisis.\n\n**Key Features**: AI-powered image recognition for waste classification (recyclable, compostable, general), Carbon footprint and environmental impact analysis, Recommendations for nearby recycling centers and trade-in locations, User ability to upload waste images (from camera or online)\n\n**Technical Complexity**: High\n\n**Innovation Level**: High\n\n**Categories**: Environmental Tech, Artificial Intelligence, Waste Management, Sustainability, Mobile Application",
+        "devpost_url": "https://devpost.com/software/trashform-10j84l",
+        "project_url": "https://github.com/derpcube/trash-form",
+        "tags": [
+          "flask",
+          "git",
+          "html",
+          "javascript",
+          "python",
+          "react"
+        ],
+        "awards": [],
+        "members": [],
+        "submission_date": null,
+        "image_url": null,
+        "vote_count": null,
+        "comment_count": null
+      },
+      {
+        "name": "Farsight.fyi",
+        "description": "**Summary**: Farsight.fyi is a hybrid AI web application that provides an objective layoff-risk score for companies. By analyzing public data like WARN filings and news articles using a combination of LLMs for natural language understanding and traditional gradient-boosting models for prediction, it aims to give employees, recruiters, and policymakers foresight into potential mass layoffs.\n\n**Problem Addressed**: The problem of mass layoffs feeling like \"out-of-the-blue\" events, by providing foresight into potential company downsizing weeks or months in advance.\n\n**Key Features**: Real-time layoff risk assessment for companies, User-input company name lookup, Multi-stage analysis pipeline, Hybrid AI system combining LLM and traditional ML, Generates objective layoff-risk scores\n\n**Technical Complexity**: High\n\n**Innovation Level**: High\n\n**Categories**: AI/ML, HR Tech, Data Analytics, Web Application",
+        "devpost_url": "https://devpost.com/software/farsight-fyi",
+        "project_url": "https://github.com/Jam-Cai/layoff-radar",
+        "tags": [
+          "beautiful-soup",
+          "python",
+          "react",
+          "selenium",
+          "typescript"
+        ],
+        "awards": [],
+        "members": [],
+        "submission_date": null,
+        "image_url": null,
+        "vote_count": null,
+        "comment_count": null
+      }
+    ],
+    "scraped_at": "2025-06-22 22:06:28.827623"
+  },
+  "error_message": null,
+  "scraped_at": "2025-06-22 22:06:28.827688"
+}

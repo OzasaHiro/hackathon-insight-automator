@@ -1,0 +1,118 @@
+{
+  "success": true,
+  "url": "https://gdg-hacks-2025.devpost.com/project-gallery",
+  "hackathon": {
+    "name": "GDG HACKS 2025: Build with AI: Build with AI - Devpost",
+    "description": "",
+    "devpost_url": "https://gdg-hacks-2025.devpost.com/project-gallery",
+    "start_date": null,
+    "end_date": null,
+    "theme": null,
+    "prizes": [],
+    "sponsors": [],
+    "participant_count": null,
+    "submission_count": null,
+    "projects": [
+      {
+        "name": "ASSIST",
+        "description": "",
+        "devpost_url": "https://devpost.com/software/assist-reh0sm",
+        "project_url": "https://github.com/jaskaran-shergill/assist",
+        "tags": [
+          "expo.io",
+          "gemini",
+          "react-native"
+        ],
+        "awards": [],
+        "members": [],
+        "submission_date": null,
+        "image_url": null,
+        "vote_count": null,
+        "comment_count": null
+      },
+      {
+        "name": "MTG Advisor",
+        "description": "",
+        "devpost_url": "https://devpost.com/software/mtg-advisor",
+        "project_url": "https://github.com/Bardin0/GDSCHacksSubmission",
+        "tags": [
+          "beautiful-soup",
+          "css",
+          "flask",
+          "javascript",
+          "python",
+          "react",
+          "selenium"
+        ],
+        "awards": [],
+        "members": [],
+        "submission_date": null,
+        "image_url": null,
+        "vote_count": null,
+        "comment_count": null
+      },
+      {
+        "name": "SpeakEasy",
+        "description": "",
+        "devpost_url": "https://devpost.com/software/speakeasy-8nxi01",
+        "project_url": "https://github.com/JashanjotP/gdsck-hacks-2025",
+        "tags": [
+          "amazon-web-services",
+          "expo.io",
+          "flask",
+          "gemini",
+          "opencv",
+          "python",
+          "react-native"
+        ],
+        "awards": [],
+        "members": [],
+        "submission_date": null,
+        "image_url": null,
+        "vote_count": null,
+        "comment_count": null
+      },
+      {
+        "name": "GPYOU",
+        "description": "",
+        "devpost_url": "https://devpost.com/software/gpyou",
+        "project_url": "https://github.com/ZainSWE/GPYOU",
+        "tags": [
+          "blender",
+          "css",
+          "gemini",
+          "html",
+          "javascript",
+          "json"
+        ],
+        "awards": [],
+        "members": [],
+        "submission_date": null,
+        "image_url": null,
+        "vote_count": null,
+        "comment_count": null
+      },
+      {
+        "name": "Demeter",
+        "description": "",
+        "devpost_url": "https://devpost.com/software/demeter-oz4msl",
+        "project_url": "https://github.com/RonkZeDonk/demeter",
+        "tags": [
+          "flask",
+          "mongodb",
+          "python",
+          "react"
+        ],
+        "awards": [],
+        "members": [],
+        "submission_date": null,
+        "image_url": null,
+        "vote_count": null,
+        "comment_count": null
+      }
+    ],
+    "scraped_at": "2025-06-22 21:34:18.740413"
+  },
+  "error_message": null,
+  "scraped_at": "2025-06-22 21:34:18.740487"
+}

@@ -1,0 +1,20 @@
+{
+  "success": true,
+  "url": "https://hack-the-vibe.devpost.com/",
+  "hackathon": {
+    "name": "\n            \n          ",
+    "description": "",
+    "devpost_url": "https://hack-the-vibe.devpost.com/",
+    "start_date": null,
+    "end_date": null,
+    "theme": null,
+    "prizes": [],
+    "sponsors": [],
+    "participant_count": null,
+    "submission_count": null,
+    "projects": [],
+    "scraped_at": "2025-06-22 21:29:25.201345"
+  },
+  "error_message": null,
+  "scraped_at": "2025-06-22 21:29:25.201383"
+}

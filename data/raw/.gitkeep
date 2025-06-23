@@ -1,0 +1,3 @@
+# This file ensures that the data/raw directory is tracked by Git
+# even when it's empty. You can delete this file once you have
+# actual data files in this directory.

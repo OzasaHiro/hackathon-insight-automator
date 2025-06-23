@@ -1,0 +1,86 @@
+{
+  "success": true,
+  "url": "https://hack-the-vibe.devpost.com/project-gallery",
+  "hackathon": {
+    "name": "\n            \n          ",
+    "description": "",
+    "devpost_url": "https://hack-the-vibe.devpost.com/project-gallery",
+    "start_date": null,
+    "end_date": null,
+    "theme": null,
+    "prizes": [],
+    "sponsors": [],
+    "participant_count": null,
+    "submission_count": null,
+    "projects": [
+      {
+        "name": "VIBE AI",
+        "description": "",
+        "devpost_url": "https://devpost.com/software/vibe-ai-uh7mrk",
+        "project_url": "https://devpost.com/software",
+        "tags": [],
+        "awards": [],
+        "members": [],
+        "submission_date": null,
+        "image_url": null,
+        "vote_count": null,
+        "comment_count": null
+      },
+      {
+        "name": "Voice to Website Platform",
+        "description": "",
+        "devpost_url": "https://devpost.com/software/voice-to-website-platform",
+        "project_url": "https://devpost.com/software",
+        "tags": [],
+        "awards": [],
+        "members": [],
+        "submission_date": null,
+        "image_url": null,
+        "vote_count": null,
+        "comment_count": null
+      },
+      {
+        "name": "MindChat",
+        "description": "",
+        "devpost_url": "https://devpost.com/software/mindchat-jfaptx",
+        "project_url": "https://devpost.com/software",
+        "tags": [],
+        "awards": [],
+        "members": [],
+        "submission_date": null,
+        "image_url": null,
+        "vote_count": null,
+        "comment_count": null
+      },
+      {
+        "name": "ToolCrafter.Ai",
+        "description": "",
+        "devpost_url": "https://devpost.com/software/toolcrafter-ai",
+        "project_url": "https://devpost.com/software",
+        "tags": [],
+        "awards": [],
+        "members": [],
+        "submission_date": null,
+        "image_url": null,
+        "vote_count": null,
+        "comment_count": null
+      },
+      {
+        "name": "GitConsistent",
+        "description": "",
+        "devpost_url": "https://devpost.com/software/gitconsistent",
+        "project_url": "https://devpost.com/software",
+        "tags": [],
+        "awards": [],
+        "members": [],
+        "submission_date": null,
+        "image_url": null,
+        "vote_count": null,
+        "comment_count": null
+      }
+    ],
+    "scraped_at": "2025-06-22 21:30:42.089062"
+  },
+  "error_message": null,
+  "scraped_at": "2025-06-22 21:30:42.089076"
+}
