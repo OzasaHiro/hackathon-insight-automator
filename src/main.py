@@ -21,7 +21,7 @@ from rich.table import Table
 from dotenv import load_dotenv
 
 from scraper.devpost_scraper import DevpostScraper
-from scraper.hackathon_search import HackathonSearcher
+from scraper.hackathon_search import HackathonSearcher, LLMHackathonSelector
 from report.markdown_generator import MarkdownReportGenerator
 from models.hackathon import ScrapingResult
 
@@ -62,12 +62,13 @@ def create_report_filename(hackathon_name: str, reports_dir: Path) -> Path:
     return reports_dir / f"{safe_name}_{timestamp}.md"
 
 
-async def search_and_select_hackathon(scraper: DevpostScraper) -> Optional[str]:
+async def search_and_select_hackathon(scraper: DevpostScraper, auto_select: bool = False) -> Optional[str]:
     """
     Search for recent AI hackathons and let user select one.
     
     Args:
         scraper: DevpostScraper instance with active browser
+        auto_select: Whether to use LLM to automatically select hackathon
         
     Returns:
         Selected hackathon project gallery URL, or None if cancelled
@@ -100,44 +101,83 @@ async def search_and_select_hackathon(scraper: DevpostScraper) -> Optional[str]:
         
         console.print(table)
         
-        # Get user selection
-        while True:
-            try:
-                selection = input(f"\nSelect hackathon (1-{len(hackathons)}) or 'q' to quit: ").strip()
+        # Use LLM for automatic selection if enabled
+        if auto_select:
+            console.print("\n[blue]Using AI to select the best hackathon...[/blue]")
+            
+            selector = LLMHackathonSelector()
+            selected_hackathon, reasoning = await selector.select_best_hackathon(hackathons)
+            
+            if selected_hackathon:
+                console.print(reasoning)
                 
-                if selection.lower() == 'q':
-                    return None
+                # Construct project gallery URL
+                hackathon_url = selected_hackathon.url
                 
-                idx = int(selection) - 1
-                if 0 <= idx < len(hackathons):
-                    selected_hackathon = hackathons[idx]
-                    
-                    # Construct project gallery URL
-                    hackathon_url = selected_hackathon.url
-                    
-                    # Clean up URL parameters and fragments
-                    from urllib.parse import urlparse, urlunparse
-                    parsed_url = urlparse(hackathon_url)
-                    # Keep only scheme, netloc, and path, remove query and fragment
-                    clean_url = urlunparse((parsed_url.scheme, parsed_url.netloc, parsed_url.path, '', '', ''))
-                    
-                    if clean_url.endswith('/'):
-                        clean_url = clean_url[:-1]
-                    
-                    gallery_url = f"{clean_url}/project-gallery"
-                    
-                    console.print(f"[green]Selected:[/green] {selected_hackathon.name}")
-                    console.print(f"[blue]Gallery URL:[/blue] {gallery_url}")
-                    
+                # Clean up URL parameters and fragments
+                from urllib.parse import urlparse, urlunparse
+                parsed_url = urlparse(hackathon_url)
+                # Keep only scheme, netloc, and path, remove query and fragment
+                clean_url = urlunparse((parsed_url.scheme, parsed_url.netloc, parsed_url.path, '', '', ''))
+                
+                if clean_url.endswith('/'):
+                    clean_url = clean_url[:-1]
+                
+                gallery_url = f"{clean_url}/project-gallery"
+                
+                console.print(f"\n[green]✓ AI Selected:[/green] {selected_hackathon.name}")
+                console.print(f"[blue]Gallery URL:[/blue] {gallery_url}")
+                
+                # Ask for confirmation
+                confirm = input("\nProceed with this selection? (Y/n): ").strip().lower()
+                if confirm == '' or confirm == 'y':
                     return gallery_url
                 else:
-                    console.print("[red]Invalid selection. Please try again.[/red]")
+                    console.print("[yellow]Selection cancelled. Please select manually.[/yellow]")
+                    auto_select = False  # Fall back to manual selection
+            else:
+                console.print("[red]AI selection failed. Please select manually.[/red]")
+                auto_select = False
+        
+        # Manual selection
+        if not auto_select:
+            while True:
+                try:
+                    selection = input(f"\nSelect hackathon (1-{len(hackathons)}) or 'q' to quit: ").strip()
                     
-            except ValueError:
-                console.print("[red]Please enter a valid number or 'q' to quit.[/red]")
-            except KeyboardInterrupt:
-                console.print("\n[yellow]Selection cancelled.[/yellow]")
-                return None
+                    if selection.lower() == 'q':
+                        return None
+                    
+                    idx = int(selection) - 1
+                    if 0 <= idx < len(hackathons):
+                        selected_hackathon = hackathons[idx]
+                        
+                        # Construct project gallery URL
+                        hackathon_url = selected_hackathon.url
+                        
+                        # Clean up URL parameters and fragments
+                        from urllib.parse import urlparse, urlunparse
+                        parsed_url = urlparse(hackathon_url)
+                        # Keep only scheme, netloc, and path, remove query and fragment
+                        clean_url = urlunparse((parsed_url.scheme, parsed_url.netloc, parsed_url.path, '', '', ''))
+                        
+                        if clean_url.endswith('/'):
+                            clean_url = clean_url[:-1]
+                        
+                        gallery_url = f"{clean_url}/project-gallery"
+                        
+                        console.print(f"[green]Selected:[/green] {selected_hackathon.name}")
+                        console.print(f"[blue]Gallery URL:[/blue] {gallery_url}")
+                        
+                        return gallery_url
+                    else:
+                        console.print("[red]Invalid selection. Please try again.[/red]")
+                        
+                except ValueError:
+                    console.print("[red]Please enter a valid number or 'q' to quit.[/red]")
+                except KeyboardInterrupt:
+                    console.print("\n[yellow]Selection cancelled.[/yellow]")
+                    return None
                 
     except Exception as e:
         logger.error(f"Error during hackathon search: {e}")
@@ -152,7 +192,9 @@ async def scrape_and_analyze(
     headless: bool = True,
     delay: float = 2.0,
     search_mode: bool = False,
-    enable_llm: bool = True
+    enable_llm: bool = True,
+    auto_select: bool = False,
+    generate_ideas: bool = False
 ) -> bool:
     """
     Main function to scrape and analyze hackathon data.
@@ -165,6 +207,8 @@ async def scrape_and_analyze(
         delay: Delay between requests
         search_mode: Whether to search for hackathons instead of using provided URL
         enable_llm: Whether to enable LLM analysis for enhanced descriptions
+        auto_select: Whether to use LLM to automatically select hackathon
+        generate_ideas: Whether to generate AI ideas from the analysis
         
     Returns:
         True if successful, False otherwise
@@ -180,7 +224,7 @@ async def scrape_and_analyze(
             
             # Search mode: let user select a hackathon
             if search_mode:
-                url = await search_and_select_hackathon(scraper)
+                url = await search_and_select_hackathon(scraper, auto_select=auto_select)
                 if not url:
                     console.print("[yellow]No hackathon selected. Exiting.[/yellow]")
                     return False
@@ -226,9 +270,12 @@ async def scrape_and_analyze(
             generator = MarkdownReportGenerator()
             report_file = create_report_filename(result.hackathon.name, reports_dir)
             
-            if generator.generate_report(result.hackathon, report_file):
+            if generator.generate_report(result.hackathon, report_file, generate_ideas=generate_ideas):
                 progress.update(report_task, completed=True)
                 console.print(f"[green]Report generated:[/green] {report_file}")
+                
+                if generate_ideas:
+                    console.print("[green]✓ AI-generated ideas included in report[/green]")
             else:
                 console.print("[red]Failed to generate report[/red]")
                 return False
@@ -353,6 +400,18 @@ Examples:
         help="Disable LLM analysis for project descriptions"
     )
     
+    parser.add_argument(
+        "--auto-select",
+        action="store_true",
+        help="Use AI to automatically select the best hackathon"
+    )
+    
+    parser.add_argument(
+        "--generate-ideas",
+        action="store_true",
+        help="Generate AI ideas based on hackathon trends"
+    )
+    
     args = parser.parse_args()
     
     # Setup logging
@@ -378,6 +437,10 @@ Examples:
     console.print(f"Headless mode: {args.headless}")
     console.print(f"Request delay: {args.delay}s")
     console.print(f"LLM analysis: {'Disabled' if args.no_llm else 'Enabled'}")
+    if args.auto_select:
+        console.print("Auto-select mode: AI will select hackathon")
+    if args.generate_ideas:
+        console.print("Idea generation: AI will generate MVP ideas")
     console.print()
     
     # Run the scraper
@@ -389,7 +452,9 @@ Examples:
             headless=args.headless,
             delay=args.delay,
             search_mode=args.search,
-            enable_llm=not args.no_llm
+            enable_llm=not args.no_llm,
+            auto_select=args.auto_select,
+            generate_ideas=args.generate_ideas
         ))
         
         if success:

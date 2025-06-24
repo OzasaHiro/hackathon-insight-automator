@@ -4,11 +4,24 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is the **Hackathon Insight Automator** (仮) project - currently in the specification phase. The project aims to automate the collection and analysis of hackathon data to identify winning trends and generate MVP ideas.
+This is the **Hackathon Insight Automator** project - a fully implemented Python application that automates the collection and analysis of hackathon data to identify winning trends and generate MVP ideas.
+
+## Repository Management
+
+This project is managed on GitHub:
+- **Repository**: https://github.com/OzasaHiro/hackathon-insight-automator
+- **Visibility**: Public repository
+- **Branch**: main
+- **Version Control**: All development tracked with comprehensive commit history
 
 ## Current State
 
-**Pre-implementation phase** - Only specification document exists (`Spec.md` in Japanese).
+**Production-ready** - Complete implementation with all core features working:
+- ✅ AI hackathon search and selection
+- ✅ Google Gemini 2.5 Flash LLM integration
+- ✅ Web scraping with Playwright
+- ✅ Markdown report generation
+- ✅ Rich CLI interface
 
 ## Execution Model
 
@@ -19,20 +32,20 @@ This application is designed to run as a **standalone Python application** for p
 
 Future plans include deployment for scheduled execution and automated reporting, but the initial implementation focuses on local execution.
 
-## Planned Architecture
+## Implemented Architecture
 
 ### Technology Stack
-- **Frontend**: Next.js + Tailwind CSS (for future dashboard)
-- **Backend**: Python (FastAPI), Playwright, LangChain
-- **Database**: Supabase (PostgreSQL with Row-Level Security)
-- **AI/ML**: OpenAI o3 / OpenLLM + LangChain
-- **Future CI/CD**: GitHub Actions (for scheduled runs when deployed)
+- **Backend**: Python with Playwright, Pydantic, Rich CLI
+- **AI/ML**: Google Generative AI (Gemini 2.5 Flash)
+- **Web Scraping**: Playwright with multi-browser fallback (Chromium/Firefox/WebKit)
+- **Reports**: Jinja2 templates for Markdown generation
+- **CLI**: Rich library for beautiful terminal interface
 
 ### Core Components
-1. **Data Collection**: Playwright-based web scraping for Devpost
-2. **Storage**: PostgreSQL via Supabase
-3. **Analysis**: LangChain pipeline for LLM processing
-4. **Distribution**: Markdown reports (local), future: Next.js dashboard
+1. **Data Collection**: ✅ Playwright-based web scraping for Devpost
+2. **Storage**: ✅ JSON file storage with structured data models
+3. **Analysis**: ✅ Google Gemini pipeline for LLM processing
+4. **Distribution**: ✅ Markdown reports (local)
 
 ## Development Guidelines
 
@@ -55,13 +68,15 @@ When implementing this project:
 - Create proper indexes for query performance
 - Use Supabase client libraries for interactions
 
-## Key Features to Implement
+## Implemented Key Features
 
-1. **On-Demand Data Collection**: Execute Python script to scrape hackathon platforms
-2. **LLM Analysis**: Process winning projects to extract trends
-3. **Report Generation**: Create markdown reports saved locally
-4. **Trend Visualization**: 4-week moving average charts (in reports)
-5. **Compliance Management**: Respect robots.txt and implement rate limiting
+1. **✅ On-Demand Data Collection**: Execute Python script to scrape hackathon platforms
+2. **✅ AI Hackathon Search**: Automatic discovery of recent AI hackathons from Devpost
+3. **✅ LLM Analysis**: Process winning projects to extract trends using Gemini 2.5 Flash
+4. **✅ Report Generation**: Create comprehensive markdown reports saved locally
+5. **✅ Interactive CLI**: Rich terminal interface with progress indicators and selection menus
+6. **✅ Multi-browser Support**: Chromium/Firefox/WebKit fallback for reliability
+7. **✅ Compliance Management**: Respect rate limiting and implement proper delays
 
 ## Important Considerations
 

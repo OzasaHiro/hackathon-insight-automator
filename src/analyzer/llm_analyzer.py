@@ -113,21 +113,61 @@ Project Sections:
                 prompt += f"\n{section.replace('_', ' ').title()}: {content}\n"
             
             prompt += """
-Please provide a JSON response with the following structure:
+Please provide a comprehensive JSON analysis with the following structure:
 {
     "summary": "A concise 2-3 sentence summary of what this project does",
+    "detailed_description": "A detailed 4-5 sentence explanation of the project's functionality, architecture, and implementation approach",
     "key_technologies": ["list", "of", "main", "technologies", "used"],
-    "innovation_level": "high/medium/low based on novelty and creativity",
-    "problem_solved": "What problem does this project address?",
-    "target_audience": "Who would use this project?",
-    "commercial_potential": "high/medium/low based on market viability",
-    "technical_complexity": "high/medium/low based on implementation difficulty",
-    "social_impact": "high/medium/low based on potential positive impact",
-    "key_features": ["list", "of", "main", "features"],
-    "categories": ["list", "of", "relevant", "categories", "like", "fintech", "healthtech", "etc"]
+    "technical_architecture": {
+        "frontend": "Description of frontend stack and approach",
+        "backend": "Description of backend services and APIs",
+        "database": "Data storage and management approach",
+        "deployment": "How the project is deployed/hosted",
+        "external_services": ["List of external APIs or services used"]
+    },
+    "innovation_analysis": {
+        "level": "high/medium/low",
+        "novel_aspects": ["List of innovative features or approaches"],
+        "technical_breakthroughs": "Any significant technical achievements",
+        "unique_value_proposition": "What makes this different from existing solutions"
+    },
+    "market_analysis": {
+        "problem_solved": "Detailed description of the problem being addressed",
+        "target_audience": "Specific user segments and demographics",
+        "market_size": "Potential market size assessment",
+        "commercial_potential": "high/medium/low",
+        "monetization_strategy": "Potential ways to monetize this solution",
+        "competitors": ["List of potential competitors or similar solutions"],
+        "competitive_advantages": ["Key differentiators from competitors"]
+    },
+    "implementation_quality": {
+        "technical_complexity": "high/medium/low",
+        "code_quality_indicators": ["Observable quality metrics like testing, documentation"],
+        "scalability_considerations": "How well the solution could scale",
+        "security_considerations": "Security measures and potential vulnerabilities"
+    },
+    "social_impact": {
+        "level": "high/medium/low",
+        "beneficiaries": "Who benefits from this solution",
+        "potential_reach": "How many people could be impacted",
+        "sustainability": "Long-term viability and impact"
+    },
+    "key_features": ["Comprehensive", "list", "of", "main", "features", "and", "capabilities"],
+    "future_potential": {
+        "growth_opportunities": ["Ways this project could expand"],
+        "technical_improvements": ["Suggested technical enhancements"],
+        "feature_roadmap": ["Potential future features"]
+    },
+    "categories": ["fintech", "healthtech", "edtech", "etc"],
+    "overall_assessment": {
+        "strengths": ["Key strengths of the project"],
+        "weaknesses": ["Areas for improvement"],
+        "opportunities": ["Market or technical opportunities"],
+        "threats": ["Potential challenges or risks"]
+    }
 }
 
-Only return valid JSON, no additional text.
+Provide a thorough, insightful analysis. Only return valid JSON, no additional text.
 """
             
             # Generate analysis
@@ -205,26 +245,72 @@ Only return valid JSON, no additional text.
         
         description_parts = []
         
-        # Add summary
+        # Add summary and detailed description
         if 'summary' in analysis:
             description_parts.append(f"**Summary**: {analysis['summary']}")
         
-        # Add problem solved
-        if 'problem_solved' in analysis:
-            description_parts.append(f"**Problem Addressed**: {analysis['problem_solved']}")
+        if 'detailed_description' in analysis:
+            description_parts.append(f"**Detailed Description**: {analysis['detailed_description']}")
+        
+        # Add market analysis
+        market = analysis.get('market_analysis', {})
+        if market:
+            if 'problem_solved' in market:
+                description_parts.append(f"**Problem Addressed**: {market['problem_solved']}")
+            if 'target_audience' in market:
+                description_parts.append(f"**Target Audience**: {market['target_audience']}")
+            if 'commercial_potential' in market:
+                description_parts.append(f"**Commercial Potential**: {market['commercial_potential'].title()}")
+        
+        # Add innovation analysis
+        innovation = analysis.get('innovation_analysis', {})
+        if innovation:
+            if 'level' in innovation:
+                description_parts.append(f"**Innovation Level**: {innovation['level'].title()}")
+            if 'unique_value_proposition' in innovation:
+                description_parts.append(f"**Unique Value**: {innovation['unique_value_proposition']}")
+        
+        # Add technical architecture
+        tech_arch = analysis.get('technical_architecture', {})
+        if tech_arch:
+            arch_parts = []
+            for key, value in tech_arch.items():
+                if value and not (isinstance(value, list) and len(value) == 0):
+                    arch_parts.append(f"{key.title()}: {value}")
+            if arch_parts:
+                description_parts.append(f"**Technical Architecture**:\n" + '\n'.join(f"  - {part}" for part in arch_parts))
         
         # Add key features
         if 'key_features' in analysis and analysis['key_features']:
-            features = ', '.join(analysis['key_features'])
-            description_parts.append(f"**Key Features**: {features}")
+            features = '\n'.join(f"  - {feature}" for feature in analysis['key_features'])
+            description_parts.append(f"**Key Features**:\n{features}")
         
-        # Add technical info
-        if 'technical_complexity' in analysis:
-            description_parts.append(f"**Technical Complexity**: {analysis['technical_complexity'].title()}")
+        # Add implementation quality
+        impl_quality = analysis.get('implementation_quality', {})
+        if impl_quality:
+            if 'technical_complexity' in impl_quality:
+                description_parts.append(f"**Technical Complexity**: {impl_quality['technical_complexity'].title()}")
+            if 'scalability_considerations' in impl_quality:
+                description_parts.append(f"**Scalability**: {impl_quality['scalability_considerations']}")
         
-        # Add innovation level
-        if 'innovation_level' in analysis:
-            description_parts.append(f"**Innovation Level**: {analysis['innovation_level'].title()}")
+        # Add social impact
+        social = analysis.get('social_impact', {})
+        if social:
+            if 'level' in social:
+                description_parts.append(f"**Social Impact**: {social['level'].title()}")
+            if 'potential_reach' in social:
+                description_parts.append(f"**Potential Reach**: {social['potential_reach']}")
+        
+        # Add overall assessment (SWOT)
+        assessment = analysis.get('overall_assessment', {})
+        if assessment:
+            swot_parts = []
+            for key in ['strengths', 'weaknesses', 'opportunities', 'threats']:
+                if key in assessment and assessment[key]:
+                    items = '\n'.join(f"    - {item}" for item in assessment[key])
+                    swot_parts.append(f"  **{key.title()}**:\n{items}")
+            if swot_parts:
+                description_parts.append(f"**SWOT Analysis**:\n" + '\n'.join(swot_parts))
         
         # Add categories
         if 'categories' in analysis and analysis['categories']:

@@ -3,13 +3,20 @@ Hackathon search functionality for finding recent AI-related hackathons.
 """
 import asyncio
 import logging
+import os
+import json
 from datetime import datetime, timedelta
-from typing import List, Optional, Dict, Any
+from typing import List, Optional, Dict, Any, Tuple
 from urllib.parse import urljoin
 from dataclasses import dataclass
 
 from playwright.async_api import Page, Browser
 from pydantic import BaseModel, HttpUrl
+import google.generativeai as genai
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
 
 logger = logging.getLogger(__name__)
 
@@ -253,6 +260,139 @@ class HackathonSearcher:
             return None
 
 
+class LLMHackathonSelector:
+    """Uses LLM to automatically select the most suitable hackathon from search results."""
+    
+    def __init__(self, api_key: Optional[str] = None):
+        """
+        Initialize the LLM hackathon selector.
+        
+        Args:
+            api_key: Google API key (optional, will use env var if not provided)
+        """
+        self.api_key = api_key or os.getenv("GOOGLE_API_KEY")
+        
+        if not self.api_key:
+            logger.warning("No Google API key found. LLM selection will be disabled.")
+            self.enabled = False
+            return
+            
+        try:
+            genai.configure(api_key=self.api_key)
+            self.model = genai.GenerativeModel('gemini-2.5-flash')
+            self.enabled = True
+            logger.info("LLM hackathon selector initialized successfully")
+        except Exception as e:
+            logger.error(f"Failed to initialize LLM selector: {e}")
+            self.enabled = False
+    
+    async def select_best_hackathon(
+        self, 
+        hackathons: List[HackathonSearchResult],
+        criteria: Optional[Dict[str, Any]] = None
+    ) -> Tuple[Optional[HackathonSearchResult], str]:
+        """
+        Select the best hackathon based on LLM analysis.
+        
+        Args:
+            hackathons: List of hackathon search results
+            criteria: Optional selection criteria (e.g., prefer_recent, min_participants)
+            
+        Returns:
+            Tuple of (selected hackathon, reasoning)
+        """
+        if not self.enabled or not hackathons:
+            logger.warning("LLM selector is disabled or no hackathons provided")
+            return (hackathons[0] if hackathons else None, "Default selection (LLM disabled)")
+        
+        try:
+            # Prepare hackathon data for LLM
+            hackathon_data = []
+            for i, h in enumerate(hackathons, 1):
+                hackathon_data.append({
+                    "index": i,
+                    "name": h.name,
+                    "url": h.url,
+                    "participants": h.participants or "Unknown",
+                    "description": h.description or "No description",
+                    "status": h.status
+                })
+            
+            # Create prompt
+            prompt = f"""
+Analyze these AI hackathons and select the most suitable one for comprehensive analysis.
+
+Hackathons:
+{json.dumps(hackathon_data, indent=2)}
+
+Selection Criteria:
+1. Prefer hackathons with MORE participants (indicates higher quality and competition)
+2. Prefer recently ended hackathons (fresh data and trends)
+3. Prefer hackathons with clear AI/ML focus
+4. Consider diversity of participants and projects
+
+{f"Additional criteria: {criteria}" if criteria else ""}
+
+Please provide a JSON response with this structure:
+{{
+    "selected_index": <1-based index of selected hackathon>,
+    "reasoning": "Brief explanation of why this hackathon was selected",
+    "score": {{
+        "participant_count": <score 1-10>,
+        "recency": <score 1-10>,
+        "ai_relevance": <score 1-10>,
+        "overall": <score 1-10>
+    }}
+}}
+
+Only return valid JSON, no additional text.
+"""
+            
+            # Generate selection
+            response = self.model.generate_content(prompt)
+            
+            if response and response.text:
+                # Parse response
+                response_text = response.text.strip()
+                logger.debug(f"LLM selection response: {response_text}")
+                
+                # Extract JSON
+                import re
+                json_match = re.search(r'\{.*\}', response_text, re.DOTALL)
+                if json_match:
+                    selection_data = json.loads(json_match.group(0))
+                    
+                    selected_index = selection_data.get("selected_index", 1) - 1
+                    reasoning = selection_data.get("reasoning", "No reasoning provided")
+                    
+                    if 0 <= selected_index < len(hackathons):
+                        selected = hackathons[selected_index]
+                        
+                        # Format detailed reasoning
+                        scores = selection_data.get("score", {})
+                        detailed_reasoning = f"""
+🤖 AI Selection: {selected.name}
+
+📊 Selection Scores:
+- Participant Count: {scores.get('participant_count', 'N/A')}/10
+- Recency: {scores.get('recency', 'N/A')}/10
+- AI Relevance: {scores.get('ai_relevance', 'N/A')}/10
+- Overall: {scores.get('overall', 'N/A')}/10
+
+💡 Reasoning: {reasoning}
+"""
+                        
+                        logger.info(f"LLM selected hackathon: {selected.name}")
+                        return (selected, detailed_reasoning.strip())
+                    
+                logger.error("Invalid selection index from LLM")
+                return (hackathons[0], "Fallback: Selected first hackathon due to LLM error")
+                
+        except Exception as e:
+            logger.error(f"Error in LLM hackathon selection: {e}")
+            return (hackathons[0] if hackathons else None, f"Fallback: Selected first hackathon due to error: {str(e)}")
+
+
 async def main():
     """Test function for hackathon search."""
     from scraper.devpost_scraper import DevpostScraper
@@ -270,6 +410,16 @@ async def main():
             print(f"   Participants: {hackathon.participants}")
             print(f"   Prizes: {hackathon.prizes}")
             print()
+        
+        # Test LLM selection
+        if hackathons:
+            print("\nTesting LLM selection...")
+            selector = LLMHackathonSelector()
+            selected, reasoning = await selector.select_best_hackathon(hackathons)
+            
+            if selected:
+                print(f"\nLLM Selected: {selected.name}")
+                print(f"Reasoning:\n{reasoning}")
 
 
 if __name__ == "__main__":

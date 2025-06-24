@@ -6,7 +6,9 @@ AI関連ハッカソンの入賞プロジェクトを自動収集・分析し、
 
 - 🔍 **AI関連ハッカソンの自動検索**: Devpostから最新のAI/MLハッカソンを自動検出
 - 🤖 **LLM分析**: Google Gemini 2.5 Flashによるプロジェクト詳細分析
+- 🎯 **AI自動選択**: LLMが最適なハッカソンを自動選択（--auto-select）
 - 📊 **技術トレンド分析**: 使用技術の統計と人気度ランキング
+- 💡 **AIアイデア生成**: トレンド分析から新しいMVPアイデアを生成（--generate-ideas）
 - 📝 **自動レポート生成**: Markdownフォーマットの包括的なレポート
 - 🎯 **インタラクティブ選択**: 複数のハッカソンから分析対象を選択可能
 
@@ -74,10 +76,17 @@ cp .env.example .env
 
 ### 基本的な使用方法（推奨）
 
-#### 🔍 検索モード - 最近のAIハッカソンから自動選択
+#### 🔍 検索モード - 最近のAIハッカソンから選択
 ```bash
 cd src
+# 手動選択
 python main.py --search
+
+# AI自動選択（新機能！）
+python main.py --search --auto-select
+
+# AI自動選択 + アイデア生成（新機能！）
+python main.py --search --auto-select --generate-ideas
 ```
 
 実行すると以下のような画面が表示されます：
@@ -90,7 +99,24 @@ Recent AI Hackathons
 │ 2  │ AI Innovation Challenge │ 89          │ https://...         │
 └────┴─────────────────────────┴─────────────┴─────────────────────┘
 
+# 手動選択の場合
 Select hackathon (1-2) or 'q' to quit: 
+
+# AI自動選択の場合
+Using AI to select the best hackathon...
+
+🤖 AI Selection: UC Berkeley AI Hackathon
+
+📊 Selection Scores:
+- Participant Count: 9/10
+- Recency: 8/10
+- AI Relevance: 10/10
+- Overall: 9/10
+
+💡 Reasoning: This hackathon has the highest participant count indicating strong competition and quality projects.
+
+✓ AI Selected: UC Berkeley AI Hackathon
+Proceed with this selection? (Y/n):
 ```
 
 #### プロジェクトをスクレイピング
@@ -157,11 +183,83 @@ python main.py --help
 
 ### ASSIST
 **Summary**: An AI-powered mobile application that helps users with daily tasks
-**Problem Addressed**: Accessibility challenges for elderly users
-**Key Features**: Voice control, AI assistance, Simple UI
+
+**Detailed Description**: ASSIST leverages cutting-edge AI technology to provide personalized assistance for elderly users. The application uses voice recognition and natural language processing to understand user needs and provide contextual help. Built with a mobile-first approach, it integrates with smart home devices and healthcare systems. The backend uses Flask for API services and Gemini for intelligent response generation.
+
+**Problem Addressed**: Elderly individuals face significant challenges in using modern technology and managing daily tasks independently. This leads to reduced quality of life and increased dependence on caregivers.
+
+**Target Audience**: Adults aged 65+ who live independently but need occasional assistance with technology and daily activities
+
+**Commercial Potential**: High
+
+**Technical Architecture**:
+  - Frontend: React Native for cross-platform mobile development
+  - Backend: Flask REST API with JWT authentication
+  - Database: PostgreSQL for user data and Firebase for real-time features
+  - Deployment: Docker containers on Google Cloud Platform
+  - External Services: Google Speech-to-Text API, Gemini AI, Twilio for notifications
+
+**Key Features**:
+  - Voice-activated assistance
+  - Medication reminders
+  - Emergency contact system
+  - Simplified UI with large buttons
+  - Integration with smart home devices
+
 **Technical Complexity**: Medium
+
 **Innovation Level**: High
+
+**Unique Value**: Unlike generic voice assistants, ASSIST is specifically designed for elderly users with cognitive considerations and simplified interactions
+
+**SWOT Analysis**:
+  **Strengths**:
+    - User-centric design for elderly
+    - Strong AI integration
+    - Cross-platform compatibility
+  **Weaknesses**:
+    - Requires internet connectivity
+    - Initial setup complexity
+  **Opportunities**:
+    - Growing elderly population
+    - Healthcare system integration
+  **Threats**:
+    - Competition from tech giants
+    - Privacy concerns
+
 **Categories**: healthcare, accessibility, ai
+
+---
+
+## 🚀 AI-Generated MVP Ideas
+
+Based on the analysis of winning projects and emerging trends, here are innovative MVP ideas:
+
+### 1. MindMesh - Collaborative AI Brain Network
+**Connecting human creativity with AI intelligence for breakthrough innovations**
+
+**Description**: MindMesh creates a neural network of human experts and AI agents working together on complex problems. It uses advanced prompt engineering to facilitate human-AI collaboration sessions where multiple specialists can brainstorm with AI assistance in real-time.
+
+**Problem**: Complex problems require diverse expertise, but coordinating experts is difficult and AI alone lacks human intuition and creativity.
+
+**Target Users**: Research teams, innovation labs, startup incubators
+
+**Key Features**:
+- Real-time collaborative AI workspace
+- Expert matching algorithm
+- AI-moderated brainstorming sessions
+- Knowledge graph visualization
+- Automated insight synthesis
+
+**Tech Stack**: Python, LangChain, Neo4j, WebRTC, React, Gemini API
+
+**AI Integration**: Uses multiple AI agents with different expertise areas to provide specialized insights during collaboration sessions
+
+**MVP Scope**: Basic collaborative workspace with 2-3 AI agents and simple brainstorming features
+
+**Revenue Model**: SaaS subscription for teams, premium AI agent marketplace
+
+**Growth Potential**: Can expand to become the go-to platform for human-AI collaborative problem solving across industries
 ```
 
 ## プロジェクト構造
@@ -253,7 +351,9 @@ python main.py <url> --log-level DEBUG
 - ✅ Devpostプロジェクトページのスクレイピング
 - ✅ 基本的なハッカソンページのスクレイピング
 - ✅ **AI関連ハッカソンの自動検索・選択機能**
-- ✅ **LLM分析機能（Gemini 2.5 Flash）**
+- ✅ **LLMによる最適ハッカソン自動選択**
+- ✅ **LLM分析機能（Gemini 2.5 Flash）- 詳細な技術・市場分析**
+- ✅ **AIアイデア生成機能 - トレンドベースのMVP提案**
 - ✅ データモデルの定義
 - ✅ Markdownレポートの生成
 - ✅ CLI インターフェース
