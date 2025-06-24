@@ -82,10 +82,10 @@ cd src
 # 手動選択
 python main.py --search
 
-# AI自動選択（新機能！）
+# 🤖 AI自動選択（推奨！）
 python main.py --search --auto-select
 
-# AI自動選択 + アイデア生成（新機能！）
+# 🚀 完全自動化：AI自動選択 + アイデア生成（最強！）
 python main.py --search --auto-select --generate-ideas
 ```
 
@@ -340,7 +340,9 @@ python main.py <url> --log-level DEBUG
 ## パフォーマンス
 
 - 平均処理時間: 約3-5分/ハッカソン（5プロジェクト）
-- LLM分析: 約5-10秒/プロジェクト
+- LLM分析: 約5-10秒/プロジェクト（詳細な技術・市場分析）
+- AIアイデア生成: 約30-60秒（5つのMVPアイデア）
+- AI自動選択: 約10-15秒（最適ハッカソンの選択）
 - 同時処理: 最大3プロジェクト
 
 ## 開発状況
@@ -362,15 +364,17 @@ python main.py <url> --log-level DEBUG
 
 ### 今後の予定
 - 🔄 データベース連携（Supabase）
-- 🔄 Webダッシュボード
-- 🔄 定期実行機能
+- 🔄 Webダッシュボード（Next.js）
+- 🔄 定期実行機能（GitHub Actions）
 - 🔄 複数LLMプロバイダー対応
 - 🔄 Slack/Discord通知
 - 🔄 PDFエクスポート
+- 🔄 マルチハッカソン並列分析
+- 🔄 履歴データの比較分析
 
 ## 貢献
 
-プルリクエストを歓迎します！バグ報告や機能リクエストは[Issues](https://github.com/your-repo/issues)にお願いします。
+プルリクエストを歓迎します！バグ報告や機能リクエストは[Issues](https://github.com/OzasaHiro/hackathon-insight-automator/issues)にお願いします。
 
 ## ライセンス
 
