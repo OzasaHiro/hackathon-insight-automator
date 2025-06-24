@@ -1,7 +1,6 @@
 """
 Markdown report generator for hackathon analysis.
 """
-import asyncio
 import logging
 from datetime import datetime
 from pathlib import Path
@@ -210,15 +209,8 @@ The analysis includes project descriptions, technologies used, team information,
                     if not idea_generator.enabled:
                         ideas_markdown = "## 🚀 AI-Generated MVP Ideas\n\n⚠️ AI idea generation is disabled. Please ensure your Google API key is set in the environment variables."
                     else:
-                        # Run async function in sync context
-                        loop = asyncio.new_event_loop()
-                        asyncio.set_event_loop(loop)
-                        try:
-                            ideas = loop.run_until_complete(
-                                idea_generator.generate_ideas(hackathon, num_ideas=5)
-                            )
-                        finally:
-                            loop.close()
+                        # Call synchronous function directly
+                        ideas = idea_generator.generate_ideas(hackathon, num_ideas=5)
                         
                         if ideas:
                             ideas_markdown = idea_generator.format_ideas_markdown(ideas)

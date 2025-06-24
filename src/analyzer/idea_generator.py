@@ -110,7 +110,7 @@ class IdeaGenerator:
             'unique_technologies': len(tech_counter)
         }
     
-    async def generate_ideas(self, hackathon: Hackathon, num_ideas: int = 5) -> List[Dict[str, Any]]:
+    def generate_ideas(self, hackathon: Hackathon, num_ideas: int = 5) -> List[Dict[str, Any]]:
         """
         Generate MVP ideas based on hackathon trends.
         
@@ -275,9 +275,8 @@ Only return valid JSON, no additional text.
         return '\n'.join(markdown_parts)
 
 
-async def main():
+def main():
     """Test function for idea generator."""
-    import asyncio
     import sys
     sys.path.append("..")
     
@@ -306,7 +305,7 @@ async def main():
     )
     
     generator = IdeaGenerator()
-    ideas = await generator.generate_ideas(hackathon, num_ideas=3)
+    ideas = generator.generate_ideas(hackathon, num_ideas=3)
     
     if ideas:
         markdown = generator.format_ideas_markdown(ideas)
@@ -316,6 +315,5 @@ async def main():
 
 
 if __name__ == "__main__":
-    import asyncio
     logging.basicConfig(level=logging.INFO)
-    asyncio.run(main())
+    main()
