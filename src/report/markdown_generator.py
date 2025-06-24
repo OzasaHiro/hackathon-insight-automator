@@ -69,7 +69,11 @@ Generated on: {{ generation_date }}
 {% for project in hackathon.projects %}
 ### {{ project.name }}
 
-**Description**: {{ project.description[:200] }}{% if project.description|length > 200 %}...{% endif %}
+{% if project.description %}
+{{ project.description }}
+{% else %}
+**Description**: No description available
+{% endif %}
 
 **Technologies**: {% for tag in project.tags %}{{ tag }}{% if not loop.last %}, {% endif %}{% endfor %}
 
@@ -203,22 +207,28 @@ The analysis includes project descriptions, technologies used, team information,
                     logger.info("Generating AI ideas...")
                     idea_generator = IdeaGenerator()
                     
-                    # Run async function in sync context
-                    loop = asyncio.new_event_loop()
-                    asyncio.set_event_loop(loop)
-                    ideas = loop.run_until_complete(
-                        idea_generator.generate_ideas(hackathon, num_ideas=5)
-                    )
-                    loop.close()
-                    
-                    if ideas:
-                        ideas_markdown = idea_generator.format_ideas_markdown(ideas)
-                        logger.info(f"Generated {len(ideas)} AI ideas")
+                    if not idea_generator.enabled:
+                        ideas_markdown = "## 🚀 AI-Generated MVP Ideas\n\n⚠️ AI idea generation is disabled. Please ensure your Google API key is set in the environment variables."
                     else:
-                        logger.warning("No AI ideas generated")
+                        # Run async function in sync context
+                        loop = asyncio.new_event_loop()
+                        asyncio.set_event_loop(loop)
+                        try:
+                            ideas = loop.run_until_complete(
+                                idea_generator.generate_ideas(hackathon, num_ideas=5)
+                            )
+                        finally:
+                            loop.close()
+                        
+                        if ideas:
+                            ideas_markdown = idea_generator.format_ideas_markdown(ideas)
+                            logger.info(f"Generated {len(ideas)} AI ideas")
+                        else:
+                            logger.warning("No AI ideas generated")
+                            ideas_markdown = "## 🚀 AI-Generated MVP Ideas\n\n⚠️ Unable to generate ideas. This may be due to:\n- Insufficient project data\n- API rate limits\n- Network connectivity issues\n\nPlease try again later."
                 except Exception as e:
-                    logger.error(f"Error generating AI ideas: {e}")
-                    ideas_markdown = "## AI Idea Generation\n\nError: Failed to generate ideas."
+                    logger.error(f"Error generating AI ideas: {e}", exc_info=True)
+                    ideas_markdown = f"## 🚀 AI-Generated MVP Ideas\n\n⚠️ Error generating ideas: {str(e)}\n\nPlease check:\n- Google API key is correctly set\n- Network connectivity\n- API quota limits"
             
             # Prepare template context
             context = {

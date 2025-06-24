@@ -159,18 +159,40 @@ class DevpostScraper:
             
             # Try multiple selectors for description
             description_selectors = [
-                "#app-details-left .user_content",
+                "#app-details-left .app-details-left",
+                "#app-details-left",
                 ".software-description",
                 ".project-description", 
                 "#app-description",
                 "[data-field='description']",
-                ".user_content p"
+                ".user-content",
+                ".user_content",
+                ".app-info",
+                "article.software-details",
+                ".software-details",
+                ".details-content",
+                "#gallery-item-description"
             ]
             description = ""
             for selector in description_selectors:
-                description = await self._safe_get_text(page, selector)
-                if description.strip():
-                    break
+                elements = await page.query_selector_all(f"{selector} p")
+                if elements:
+                    texts = []
+                    for element in elements[:5]:  # Get first 5 paragraphs
+                        text = await element.text_content()
+                        if text and text.strip():
+                            texts.append(text.strip())
+                    if texts:
+                        description = " ".join(texts)
+                        logger.info(f"Found description using selector: {selector}")
+                        break
+                
+                # Try direct selector if paragraph approach fails
+                if not description:
+                    description = await self._safe_get_text(page, selector)
+                    if description.strip():
+                        logger.info(f"Found description using direct selector: {selector}")
+                        break
             
             # Extract tags using updated selectors
             tags = []
@@ -246,6 +268,29 @@ class DevpostScraper:
                 if project_link and not project_link.startswith("/"):
                     break
             
+            # Log description status
+            if description:
+                logger.info(f"Found description for {project_name}: {len(description)} characters")
+            else:
+                logger.warning(f"No description found for {project_name}")
+                # Try to get any text content from the page as fallback
+                try:
+                    fallback_selectors = [
+                        "main", "article", ".container", "#content", "body"
+                    ]
+                    for selector in fallback_selectors:
+                        fallback_text = await self._safe_get_text(page, selector)
+                        if fallback_text and len(fallback_text) > 100:
+                            # Extract first 500 characters of meaningful content
+                            lines = fallback_text.split('\n')
+                            meaningful_lines = [line.strip() for line in lines if len(line.strip()) > 20]
+                            if meaningful_lines:
+                                description = ' '.join(meaningful_lines[:5])[:500] + "..."
+                                logger.info(f"Used fallback description from {selector}")
+                                break
+                except Exception as e:
+                    logger.error(f"Failed to get fallback description: {e}")
+            
             # Perform LLM analysis if enabled
             enhanced_description = description
             if (self.enable_llm and self.llm_analyzer and self.llm_analyzer.enabled 
@@ -269,6 +314,10 @@ class DevpostScraper:
                 except Exception as e:
                     logger.error(f"LLM analysis failed for {project_name}: {e}")
                     enhanced_description = description
+            
+            # Ensure we have at least some description
+            if not enhanced_description:
+                enhanced_description = f"Project: {project_name}. No detailed description available."
             
             # Create project object
             project = Project(
