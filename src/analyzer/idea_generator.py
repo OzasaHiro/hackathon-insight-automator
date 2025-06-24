@@ -223,54 +223,54 @@ Only return valid JSON, no additional text.
         if not ideas:
             return "No ideas generated."
         
-        markdown_parts = ["## 🚀 AI-Generated MVP Ideas\n"]
-        markdown_parts.append("Based on the analysis of winning projects and emerging trends, here are innovative MVP ideas:\n")
+        markdown_parts = ["## 🚀 AI-Generated MVP Ideas"]
+        markdown_parts.append("Based on the analysis of winning projects and emerging trends, here are innovative MVP ideas:")
         
         for i, idea in enumerate(ideas, 1):
-            markdown_parts.append(f"### {i}. {idea.get('name', 'Untitled Idea')}")
-            markdown_parts.append(f"**{idea.get('tagline', '')}**\n")
+            markdown_parts.append(f"\n### {i}. {idea.get('name', 'Untitled Idea')}")
+            if idea.get('tagline'):
+                markdown_parts.append(f"**{idea['tagline']}**")
             
             if 'description' in idea:
-                markdown_parts.append(f"**Description**: {idea['description']}\n")
+                markdown_parts.append(f"\n**Description**: {idea['description']}")
             
             if 'problem_statement' in idea:
-                markdown_parts.append(f"**Problem**: {idea['problem_statement']}\n")
+                markdown_parts.append(f"**Problem**: {idea['problem_statement']}")
             
             if 'target_users' in idea:
-                markdown_parts.append(f"**Target Users**: {idea['target_users']}\n")
+                markdown_parts.append(f"**Target Users**: {idea['target_users']}")
             
             if 'key_features' in idea and idea['key_features']:
                 markdown_parts.append("**Key Features**:")
                 for feature in idea['key_features']:
                     markdown_parts.append(f"- {feature}")
-                markdown_parts.append("")
             
             if 'tech_stack' in idea and idea['tech_stack']:
                 tech_list = ', '.join(idea['tech_stack'])
-                markdown_parts.append(f"**Tech Stack**: {tech_list}\n")
+                markdown_parts.append(f"**Tech Stack**: {tech_list}")
             
             if 'ai_integration' in idea:
-                markdown_parts.append(f"**AI Integration**: {idea['ai_integration']}\n")
+                markdown_parts.append(f"**AI Integration**: {idea['ai_integration']}")
             
             if 'mvp_scope' in idea:
-                markdown_parts.append(f"**MVP Scope**: {idea['mvp_scope']}\n")
+                markdown_parts.append(f"**MVP Scope**: {idea['mvp_scope']}")
             
             if 'revenue_model' in idea:
-                markdown_parts.append(f"**Revenue Model**: {idea['revenue_model']}\n")
+                markdown_parts.append(f"**Revenue Model**: {idea['revenue_model']}")
             
             if 'unique_value' in idea:
-                markdown_parts.append(f"**Unique Value**: {idea['unique_value']}\n")
+                markdown_parts.append(f"**Unique Value**: {idea['unique_value']}")
             
             if 'implementation_steps' in idea and idea['implementation_steps']:
                 markdown_parts.append("**Implementation Steps**:")
                 for j, step in enumerate(idea['implementation_steps'], 1):
                     markdown_parts.append(f"{j}. {step}")
-                markdown_parts.append("")
             
             if 'growth_potential' in idea:
-                markdown_parts.append(f"**Growth Potential**: {idea['growth_potential']}\n")
+                markdown_parts.append(f"**Growth Potential**: {idea['growth_potential']}")
             
-            markdown_parts.append("---\n")
+            if i < len(ideas):  # Add separator except for last item
+                markdown_parts.append("\n---")
         
         return '\n'.join(markdown_parts)
 
